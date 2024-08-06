@@ -1,0 +1,22 @@
+.container {
+    overflow: hidden; // Ensure no scrolling
+    .container {
+      overflow: hidden; // Ensure no scrolling within this container
+    }
+  }
+  
+  .main {
+    .swiper {
+      overflow: hidden;
+    }
+  
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  
+    .swiper-slide {
+      overflow: hidden;
+    }
+  }
+  

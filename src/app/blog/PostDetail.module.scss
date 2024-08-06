@@ -1,0 +1,57 @@
+.container {
+    overflow: hidden; // Ensure no scrolling
+  }
+  
+  .card {
+    overflow: hidden; // Prevent overflow in card component
+    .image-container {
+      overflow: hidden; // Prevent overflow in image container
+      img {
+        width: 100%;
+        height: auto;
+        display: block; // Ensure images do not cause overflow
+      }
+      .overlay {
+        // Define overlay styles if necessary
+      }
+    }
+  
+    .card-img-overlay {
+      overflow: hidden; // Prevent overflow in image overlay
+    }
+  }
+  
+  .post-content {
+    overflow: hidden; // Ensure content does not overflow
+  }
+  
+  .comments-section {
+    overflow: hidden; // Ensure comments section does not overflow
+  }
+  
+  .related-posts {
+    overflow: hidden; // Ensure related posts section does not overflow
+    .grid {
+      gap: 8px; // Adjust gaps as needed
+      .relative {
+        overflow: hidden; // Prevent overflow in individual posts
+      }
+    }
+  }
+  
+  .categories, .tags {
+    overflow: hidden; // Prevent overflow in categories and tags
+  }
+  
+  .list-group-item {
+    overflow: hidden; // Ensure list items do not overflow
+  }
+  
+  .badge {
+    overflow: hidden; // Prevent overflow in badges
+  }
+  
+  .postcard {
+    overflow: hidden; // Prevent overflow in postcard components
+  }
+  

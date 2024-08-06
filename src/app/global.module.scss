@@ -1,0 +1,25 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: $font-stack;
+    color: #333;
+    background-color: #f4f4f4;
+  }
+  
+  a {
+    text-decoration: none;
+    color: $primary-color;
+  
+    &:hover {
+      color: darken($primary-color, 10%);
+    }
+  }
+  
+  button {
+    @include button-styles();
+  }
