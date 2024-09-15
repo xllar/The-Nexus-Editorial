@@ -28,12 +28,6 @@ export default function Icon() {
                     <a href="#" className={styles.navLink}>Contact Us</a>
                 </li>
                 </Link>
-
-                <Link href={'../../signIn'} legacyBehavior>
-                <li className={styles.navItem}>
-                    <a href="#" className={styles.navLink}>Sign In</a>
-                </li>
-                </Link>
             </ul>
             <ul className={styles.socialNav}>
                 <li className={styles.navItem}>

@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/category/[slug]", "src/app/lib/db.tsx", "auth.ts", "src/app/api/auth/signUp/route.ts", "src/app/lib/token.tsx", "src/app/lib/sendemail-to -gmail/email.js", "src/auth.js", "src/app/forgot-password/page.tsx", "src/app/api/auth/contact/route.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/category/[slug]", "src/app/lib/db.tsx", "auth.ts", "src/app/api/auth/signUp/route.ts", "src/app/lib/token.tsx", "src/app/lib/sendemail-to -gmail/email.js", "src/auth.js", "src/app/forgot-password/page.tsx", "src/app/api/auth/contact/route.js", "src/app/blog/[slug]/page.tsx", "src/components/postcard/index.tsxg", "src/components/postcard/index.tsx", "src/app/lib/newsletter.ts", "src/app/lib/newsletter.tsx"],
   "exclude": ["node_modules"]
 }

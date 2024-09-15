@@ -1,33 +1,106 @@
 /* eslint-disable @next/next/no-img-element */
-'use client'
+'use client';
 
 import Head from 'next/head';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { useState } from 'react';
-import Index3 from '@/components/postcard/index3';
+import { useState, useEffect } from 'react';
 import Navbar from '@/components/header/navbar';
 import Footer from '@/components/footer/page';
+import sanityClient from '@/app/utils/sanityClient'; // Ensure you have this configured
 
 type Post = {
-  imgSrc: string;
+  _id: string;
   title: string;
   description: string;
-  link: string;
+  mainImage: {
+    asset: {
+      url: string;
+    };
+    alt: string;
+  };
+  slug: {
+    current: string;
+  };
+  authorName: string;
+  authorImage: {
+    asset: {
+      url: string;
+    };
+    alt: string;
+  };
+  date: string;
+  category: {
+    title: string;
+  } | null;
 };
 
-const categories = ['Politics','Technology','Sports','Entertainment', 'Health', 'Lifestyle','Science', 'Finance', 'Education'];
+type Category = {
+  title: string;
+  description: string;
+  mainImage: {
+    asset: {
+      url: string;
+    };
+    alt: string;
+  };
+};
 
 export default function CategoryPage() {
   const { category } = useParams();
   const [currentCategory, setCurrentCategory] = useState(category);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [categoryDetails, setCategoryDetails] = useState<Category | null>(null);
 
-  const posts: Post[] = Array.from({ length: 15 }).map((_, index) => ({
-    imgSrc: `https://picsum.photos/400/300?random=${index}`,
-    title: `Exciting News in ${currentCategory} ${index + 1}`,
-    description: `Discover the latest trends and insights in ${currentCategory}.`,
-    link: `/blog`
-  }));
+  useEffect(() => {
+    // Fetch categories from Sanity
+    const fetchCategories = async () => {
+      const categoryQuery = `*[_type == "category"]{
+        title,
+        description,
+        mainImage{
+          asset->{
+            url
+          },
+          alt
+        }
+      }`;
+
+      const fetchedCategories = await sanityClient.fetch(categoryQuery);
+      setCategories(fetchedCategories);
+    };
+
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    if (!currentCategory) return;
+
+    // Fetch posts from Sanity
+    const fetchPosts = async () => {
+      const query = `*[_type == "post" && category->title == $category]{
+        _id,
+        title,
+        "description": description,
+        "mainImage": mainImage.asset->url,
+        "mainImageAlt": mainImage.alt,
+        slug {
+          current
+        },
+        authorName,
+        "authorImage": authorImage.asset->url,
+        "authorImageAlt": authorImage.alt,
+        date,
+        category -> { title }
+      }`;
+
+      const fetchedPosts = await sanityClient.fetch(query, { category: currentCategory });
+      setPosts(fetchedPosts);
+    };
+
+    fetchPosts();
+  }, [currentCategory]);
 
   return (
     <>
@@ -44,34 +117,35 @@ export default function CategoryPage() {
               <button
                 key={index}
                 className={`block w-full text-left p-3 rounded-lg transition-all duration-300 ${
-                  currentCategory === cat ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                  currentCategory === cat.title ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-gray-200'
                 }`}
-                onClick={() => setCurrentCategory(cat)}
+                onClick={() => setCurrentCategory(cat.title)}
               >
-                {cat}
+                {cat.title}
               </button>
             ))}
           </div>
-          <Index3 />
         </aside>
         <section className="w-full lg:w-3/4 p-4 md:p-8">
           <h2 className="text-2xl md:text-4xl font-extrabold text-center mb-4 md:mb-8 animate-pulse text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-400">
             Category: {currentCategory}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 relative z-10">
-            {posts.map((post, index) => (
-              <div key={index} className="relative bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
+            {posts.map((post) => (
+              <div key={post._id} className="relative bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
                 <div className="w-full h-32 sm:h-48 relative">
                   <img 
-                    src={post.imgSrc} 
-                    alt={`Post Image ${index + 1}`} 
+                    src={post.mainImage} 
+                    alt={post.mainImage || `Post Image ${post._id}`} 
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="p-4 bg-white transition-colors duration-300 hover:bg-blue-50">
                   <h3 className="text-lg md:text-xl font-semibold mb-2">{post.title}</h3>
                   <p className="text-gray-600 mb-4">{post.description}</p>
-                  <Link href={post.link} legacyBehavior>
+                  <p className="text-gray-600 text-sm mb-2">{post.authorName}</p>
+                  <p className="text-gray-600 text-sm">{new Date(post.date).toLocaleDateString()}</p>
+                  <Link href={`/blog/${post.slug.current}`} legacyBehavior>
                     <a className="text-blue-600 hover:underline">Read More</a>
                   </Link>
                 </div>
@@ -119,7 +193,12 @@ export default function CategoryPage() {
           cursor: pointer;
         }
       `}</style>
-      <Footer Country={null} />
+      <Footer Country={null} socialMedia={[]} categories={[]} tags={[]} newsletter={{
+        title: '',
+        description: '',
+        placeholder: '',
+        buttonText: ''
+      }} />
     </>
   );
 }

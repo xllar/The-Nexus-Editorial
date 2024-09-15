@@ -1,25 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './style.module.scss';
 import { FaSearch, FaBars } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import Menu from './menu';
 import { RiAccountPinCircleLine, RiArrowDropDownFill } from 'react-icons/ri';
 import { useSession } from 'next-auth/react';
+import sanityClient from '@/app/utils/sanityClient'; 
+import Link from 'next/link';
+interface Country {
+    name: string;
+    flag: string;
+}
 
-interface Country{
-    name: string
-    flag: string
-}
 interface HeaderProps {
-    country : Country | null
+    country: Country | null;
 }
-export default function Page({country}:HeaderProps){
-    const {data:session}=useSession()
+
+export default function Page({ country }: HeaderProps) {
+    const { data: session } = useSession();
     const [searchVisible, setSearchVisible] = useState(false);
     const [menuVisible, setMenuVisible] = useState(false);
-    const [isLoggedIn, setisLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [categories, setCategories] = useState<string[]>([]); // State to hold categories
 
     console.log('Session:', session);
 
@@ -31,8 +35,17 @@ export default function Page({country}:HeaderProps){
         setMenuVisible(!menuVisible);
     };
 
+    useEffect(() => {
+        // Fetch categories from Sanity
+        const fetchCategories = async () => {
+            const query = `*[_type == "category"]{title}`;
+            const fetchedCategories = await sanityClient.fetch(query);
+            const categoryTitles = fetchedCategories.map((category: { title: string }) => category.title);
+            setCategories(categoryTitles);
+        };
 
-
+        fetchCategories();
+    }, []);
 
     return (
         <header className={styles.header}>
@@ -42,14 +55,16 @@ export default function Page({country}:HeaderProps){
             </div>
             <nav className={`${styles.nav} ${menuVisible ? styles.mobileNavVisible : ''}`}>
                 <ul>
-                   <li><a href="#">Home</a></li>
-                    <li><a href="#">World</a></li>
-                    <li><a href="#">Politics</a></li>
-                    <li><a href="#">Technology</a></li>
-                    <li><a href="#">Sports</a></li>
-                    <li><a href="#">Entertainment</a></li>
-                    <li><a href="#">Health</a></li>
-                    <li><a href="#">Science</a></li>
+                    <li><a href="#">Home</a></li>
+                    {/* Dynamically render categories */}
+{categories.map((category, index) => (
+    <li key={index}>
+        <Link href={`/category/${category.toLowerCase().replace(/\s+/g, '-')}`}>
+            {category}
+        </Link>
+    </li>
+))}
+
                 </ul>
                 <div className={styles.searchContainer}>
                     <button title="Search" onClick={toggleSearchVisibility}>
@@ -66,36 +81,32 @@ export default function Page({country}:HeaderProps){
                         <button title="Notifications">🔔</button>
                     </div>
                     <div className={styles.nig}>
-                        {
-                           country ? (
+                        {country ? (
                             <>
-                            <p>{country.name}</p>
-                            <img src={country.flag} alt="" width={20} height={20} /></>
-                           ):(
+                                <p>{country.name}</p>
+                                <img src={country.flag} alt="" width={20} height={20} />
+                            </>
+                        ) : (
                             <p>...loading</p>
-                           )
-                        }
-                 
+                        )}
                     </div>
                     <div className={styles.profile}>
-                        { session ? (
-                              <div>
-                                {
-                                    session.user?.image && (
-                                        <img src={session.user?.image} alt={session.user?.id} />  
-                                    )
-                                }
-                              <span>{session.user?.name}</span>
-                              <RiArrowDropDownFill/>
-                          </div> 
-                        ): (
+                        {session ? (
                             <div>
-                            <RiAccountPinCircleLine/>
-                            <RiArrowDropDownFill/>
-                         </div>
+                                {session.user?.image && (
+                                    <img src={session.user?.image} alt={session.user?.id} />
+                                )}
+                                <span>{session.user?.name}</span>
+                                <RiArrowDropDownFill />
+                            </div>
+                        ) : (
+                            <div>
+                                <RiAccountPinCircleLine />
+                                <RiArrowDropDownFill />
+                            </div>
                         )}
                         <div className={styles.dropdown}>
-                          <Menu/>
+                            <Menu />
                         </div>
                     </div>
                 </div>

@@ -1,54 +1,25 @@
 import nodemailer from 'nodemailer';
-import { google } from 'googleapis';
 
-const { OAuth2 } = google.auth;
-const OAUTH_PLAYGROUND = "https://developers.google.com/oauthplayground";
-
-// Destructure environment variables
-const {
-  MAILING_SERVICE_CLIENT_ID,
-  MAILING_SERVICE_CLIENT_SECRET,
-  MAILING_SERVICE_REFRESH_TOKEN,
-  SENDER_EMAIL_ADDRESS,
-} = process.env;
-
-// Create OAuth2 client
-const oauth2Client = new OAuth2(
-  MAILING_SERVICE_CLIENT_ID,
-  MAILING_SERVICE_CLIENT_SECRET,
-  OAUTH_PLAYGROUND
-);
-
-oauth2Client.setCredentials({
-  refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
-});
-
-// Email sending function
-export const sendEmail = async (to, url, subject, template) => {
+// Email sending function using SMTP with Nodemailer
+export const sendEmail = async (to,url, subject, template) => {
   try {
-    // Get access token
-    const { token } = await oauth2Client.getAccessToken();
-    console.log('Access token obtained:', token);
-
-    // Create SMTP transport
+    // Create reusable transporter object using SMTP
     const smtpTransport = nodemailer.createTransport({
-      service: 'gmail',
+      host: process.env.SMTP_HOST, // SMTP host from env
+      port: parseInt(process.env.SMTP_PORT, 10) || 587, // SMTP port (default 587)
+      secure: false, // Use true for 465, false for other ports
       auth: {
-        type: 'OAuth2',
-        user: SENDER_EMAIL_ADDRESS,
-        clientId: MAILING_SERVICE_CLIENT_ID,
-        clientSecret: MAILING_SERVICE_CLIENT_SECRET,
-        refreshToken: MAILING_SERVICE_REFRESH_TOKEN,
-        accessToken: token,
+        user: process.env.SMTP_USER, // SMTP username from env
+        pass: process.env.SMTP_PASSWORD, // SMTP password from env
       },
     });
 
     // Mail options
     const mailOptions = {
-      from: SENDER_EMAIL_ADDRESS,
-      to,
-      subject,
-      html: template(to, url),
+      from: `"Newsroom" <${process.env.SENDER_EMAIL_ADDRESS}>`, // Sender address from env
+      to, // Recipient email
+      subject, // Email subject
+      html: template(to, url), // HTML email content from template
     };
 
     // Send email

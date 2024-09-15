@@ -17,7 +17,7 @@ export default function Home() {
  useEffect(()=>{
   const FetchData = async()=>{
     try{
-      const response = await axios.get('https://api.ipregistry.co/?key=ghk8qlfmu33dflet`');
+      const response = await axios.get('https://api.ipregistry.co/?key=ghk8qlfmu33dfle');
       //console.log(response.data)
       const countryData: country={
         name: response.data.location.country.name,
