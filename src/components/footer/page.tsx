@@ -4,6 +4,7 @@ import styles from './style.module.scss';
 import client from '@/app/utils/sanityClient';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import Newsletter from './newletter';
 
 interface Country {
   flag: string;
@@ -126,35 +127,8 @@ export default function Footer({ Country }: FooterProps) {
 
         {/* Newsletter Section */}
         <div className="col-lg-3 col-md-6 mb-5">
-          {session ? (
-            <div className={`container-fluid py-4 px-sm-3 px-md-5 ${styles.newsletterContainer}`}>
-              <div className={styles.newsletter}>
-                <h5 className="font-weight-bold">{newsletter.title}</h5>
-                <p>{newsletter.description}</p>
-                <form className="d-flex">
-                  <input
-                    type="email"
-                    className={styles.newsletterInput}
-                    placeholder={newsletter.placeholder}
-                    value={session?.user?.email ?? ""}
-                    readOnly
-                  />
-                  <button type="submit" className={styles.newsletterButton}>
-                    Subscribe
-                  </button>
-                </form>
-              </div>
-            </div>
-          ) : (
-            <div className={`container-fluid py-4 px-sm-3 px-md-5 ${styles.newsletterContainer}`}>
-              <div className={styles.newsletter}>
-                <h5 className="font-weight-bold">{newsletter.title}</h5>
-                <p>{newsletter.description}</p>
-                <p>Please <a href="/signin" className={styles.signinLink}>sign in</a> to subscribe to our newsletter.</p>
-              </div>
-            </div>
-          )}
-        </div>
+        <Newsletter newsletter={newsletter} />
+      </div>
       </div>
 
       {/* Footer Rights */}

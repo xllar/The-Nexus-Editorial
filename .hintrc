@@ -15,6 +15,12 @@
     "axe/structure": "off",
     "axe/text-alternatives": "off",
     "disown-opener": "off",
-    "typescript-config/consistent-casing": "off"
+    "typescript-config/consistent-casing": "off",
+    "axe/forms": [
+      "default",
+      {
+        "label": "off"
+      }
+    ]
   }
 }

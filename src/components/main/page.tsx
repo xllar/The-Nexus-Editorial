@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from './main.module.scss';
 import client from '@/app/utils/sanityClient';
-import Index2 from '../postcard/index2';
-import Index4 from '../postcard/index4';
 import Index from '../postcard/index';
+import Index2 from '../postcard/index2';
 import Editor from '../postcard/index6';
 
 const fetchFeaturedPost = async () => {
@@ -27,11 +26,11 @@ const fetchFeaturedPost = async () => {
 
 export default function Home() {
   const [featuredPost, setFeaturedPost] = useState<any>(null);
+  const [searchTerm, setSearchTerm] = useState(''); 
 
   useEffect(() => {
     const getFeaturedPost = async () => {
       const post = await fetchFeaturedPost();
-      console.log('fetch post', post);
       setFeaturedPost(post);
     };
     
@@ -43,6 +42,17 @@ export default function Home() {
       <main className="container mx-auto my-8 px-4 overflow-hidden">
         <div className="flex flex-col lg:flex-row overflow-hidden">
           <div className="w-full lg:w-2/3 mb-8 lg:mb-0 overflow-hidden">
+            {/* Search Input */}
+            <div className="mb-6">
+              <input
+                type="text"
+                placeholder="Search posts..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)} // Update searchTerm
+                className="w-full px-4 py-2 rounded border border-blue-400 bg-blue-50 text-black-700  focus:border-black-600 focus:ring focus:ring-blue-300 outline-none transition-all"
+              />
+            </div>
+
             {featuredPost && (
               <Link href={`/blog/${featuredPost.slug?.current}`} legacyBehavior>
                 <a className="group">
@@ -67,7 +77,7 @@ export default function Home() {
             )}
             <div className="grid gap-8">
               <h2 className="text-4xl font-bold text-center mb-6">Top Stories</h2>
-              <Index />
+              <Index searchTerm={searchTerm} /> {/* Pass searchTerm to Index component */}
             </div>
           </div>
           <aside className="w-full lg:w-1/3 lg:ml-8 overflow-hidden">

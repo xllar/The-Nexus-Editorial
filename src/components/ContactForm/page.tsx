@@ -5,30 +5,22 @@ import axios from 'axios';
 import { useState } from 'react';
 
 const ContactForm = () => {
-  const { data: session, status } = useSession();
-  const [error, setError] = useState('');
-
-  if (status === 'loading') {
-    return <p>Loading...</p>;
-  }
-
-  if (status === 'unauthenticated') {
-    return <p>Please <a href="/signin">sign in</a> to contact us.</p>;
-  }
+  const { data: session } = useSession();
+  const [statusMessage, setStatusMessage] = useState({ message: '', type: '' });
 
   return (
     <Formik
-      initialValues={{ name: '', email: session.user.email, message: '' }}
+      initialValues={{ name: '', email: session?.user?.email || '', message: '' }}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
-        setError('');
+        setStatusMessage({ message: '', type: '' });
 
         try {
           await axios.post('/api/auth/contact', values);
-          alert('Message sent!');
+          setStatusMessage({ message: 'Message sent successfully!', type: 'success' });
           resetForm();
         } catch (err) {
-          setError('Failed to send message.');
+          setStatusMessage({ message: 'Failed to send message. Please try again.', type: 'error' });
         } finally {
           setSubmitting(false);
         }
@@ -78,7 +70,15 @@ const ContactForm = () => {
           >
             {isSubmitting ? 'Sending...' : 'Send Message'}
           </button>
-          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {statusMessage.message && (
+            <p
+              className={`mt-2 ${
+                statusMessage.type === 'success' ? 'text-green-500' : 'text-red-500'
+              }`}
+            >
+              {statusMessage.message}
+            </p>
+          )}
         </Form>
       )}
     </Formik>
