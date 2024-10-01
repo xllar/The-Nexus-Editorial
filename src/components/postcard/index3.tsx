@@ -94,7 +94,7 @@ export default function Editor() {
 
   return (
     <div className="container mx-auto">
-      <Link href="/category" legacyBehavior>
+      <Link href="/allpost" legacyBehavior>
         <a className="block text-center my-8 text-blue-600 hover:underline">
           Read More Top Stories
         </a>

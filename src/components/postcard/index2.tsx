@@ -132,9 +132,6 @@ export default function SideCardComponent() {
                 <a href={video.url} target="_blank" rel="noopener noreferrer" className="block text-lg font-semibold text-teal-600 hover:underline">
                   {video.title}
                 </a>
-                <span className="text-sm text-gray-700">
-                  {new Date(video.date).toLocaleDateString()} | {video.views} views
-                </span>
               </div>
             ))
           ) : (
@@ -144,26 +141,29 @@ export default function SideCardComponent() {
       </div>
 
       {/* Categories Section */}
-      <div className="bg-white rounded-xl p-6 mb-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-blue-500 cursor-pointer">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">Categories</h2>
-        <div className="flex flex-wrap gap-4 justify-center">
-          {(post.categories?.length ?? 0) > 0 ? (
-            post.categories.map((category) => (
-              <Link 
-                key={category.title} 
-                href={`/category/${category.title}`} 
-                className="block p-3 bg-gradient-to-r from-blue-100 to-blue-300 text-blue-700 rounded-lg shadow-md hover:bg-gradient-to-r hover:from-blue-200 hover:to-blue-400 transition-colors duration-300 cursor-pointer"
-                legacyBehavior>
-                <span className="text-lg font-semibold hover:underline">
-                  {category.title}
-                </span>
-              </Link>
-            ))
-          ) : (
-            <p className="text-gray-700 text-center">No categories available</p>
-          )}
-        </div>
-      </div>
+     {/* Categories Section */}
+<div className="bg-white rounded-xl p-6 mb-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-blue-500 cursor-pointer">
+  <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">Categories</h2>
+  <div className="flex flex-wrap gap-4 justify-center">
+    {(post.categories?.length ?? 0) > 0 ? (
+      post.categories.map((category) => (
+        <Link 
+          key={category.title} 
+          href={`/category/${category.title.toLowerCase().replace(/\s+/g, '-')}`} 
+          as={`/category/${category.title.toLowerCase().replace(/\s+/g, '-')}?open=${category.title}`} 
+          className="block p-3 bg-gradient-to-r from-blue-100 to-blue-300 text-blue-700 rounded-lg shadow-md hover:bg-gradient-to-r hover:from-blue-200 hover:to-blue-400 transition-colors duration-300 cursor-pointer"
+          legacyBehavior>
+          <span className="text-lg font-semibold hover:underline">
+            {category.title}
+          </span>
+        </Link>
+      ))
+    ) : (
+      <p className="text-gray-700 text-center">No categories available</p>
+    )}
+  </div>
+</div>
+
 
       {/* Tags Section */}
       <div className="bg-white rounded-xl p-6 mb-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-purple-500">

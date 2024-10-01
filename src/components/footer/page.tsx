@@ -82,7 +82,7 @@ export default function Footer({ Country }: FooterProps) {
         <div className="col-lg-3 col-md-6 mb-5">
           <a href="index.html" className="navbar-brand">
             <h1 className={`mb-2 mt-n2 display-5 text-uppercase ${styles.brand}`}>
-              News<span className={styles.primary}>Room</span>
+            Nexus<span className={styles.primary}>Editorial</span>
             </h1>
           </a>
           <p>{newsletter.description}</p>
@@ -134,7 +134,7 @@ export default function Footer({ Country }: FooterProps) {
       {/* Footer Rights */}
       <div className={styles.right}>
         <p className="m-0 text-center">
-          &copy; <a className="font-weight-bold" href="#">NEWROOM</a>. All Rights Reserved. {new Date().getFullYear()}.
+          &copy; <a className="font-weight-bold" href="#">TheNexusEditorial</a>. All Rights Reserved. {new Date().getFullYear()}.
           Designed by <a className="font-weight-bold" href="https://htmlcodex.com">xlngr</a>
         </p>
       </div>

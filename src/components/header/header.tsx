@@ -43,20 +43,21 @@ export default function Page({ country }: HeaderProps) {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <h1>NEWS<span>ROOM</span></h1>
+        <h1>NEXUS<span>EDITORIAL</span></h1>
         <p className={styles.tagline}>Your daily source of fresh news</p>
       </div>
       <nav className={`${styles.nav} ${menuVisible ? styles.mobileNavVisible : ''}`}>
         <ul>
-          <li><a href="#">Home</a></li>
+          <li><a href="/">Home</a></li>
 
           {categories.map((category, index) => (
-            <li key={index}>
-              <Link href={`/category/${category.toLowerCase().replace(/\s+/g, '-')}`}>
-                {category}
-              </Link>
-            </li>
-          ))}
+  <li key={index}>
+    <Link href={`/category/${category.toLowerCase().replace(/\s+/g, '-')}`} as={`/category/${category.toLowerCase().replace(/\s+/g, '-')}?open=${category}`}>
+      {category}
+    </Link>
+  </li>
+))}
+
         </ul>
 
         <div className={styles.userMenu}>

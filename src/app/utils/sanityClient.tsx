@@ -6,7 +6,8 @@ const client = createClient({
   projectId: '1rk9myhw', 
   dataset: 'production', 
   apiVersion: '2024-08-01',
-  useCdn: true, // `false` if you want to ensure fresh data
+  token: process.env.SANITY_API_TOKEN,
+  useCdn: false,
 });
 
 export default client;

@@ -6,7 +6,7 @@ import styles from './main.module.scss';
 import client from '@/app/utils/sanityClient';
 import Index from '../postcard/index';
 import Index2 from '../postcard/index2';
-import Editor from '../postcard/index6';
+import Editor from '../postcard/index3';
 
 const fetchFeaturedPost = async () => {
   const query = `

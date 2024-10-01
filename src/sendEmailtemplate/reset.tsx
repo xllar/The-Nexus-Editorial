@@ -1,75 +1,31 @@
 export const resetPasswordTemplate = (to: string, url: string) => {
     return `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Reset Your Password</title>
-          <style>
-              body {
-                  font-family: Arial, sans-serif;
-                  background-color: #f4f4f4;
-                  margin: 0;
-                  padding: 0;
-                  color: #333;
-              }
-              .container {
-                  max-width: 600px;
-                  margin: 0 auto;
-                  padding: 20px;
-                  background: #ffffff;
-                  border-radius: 8px;
-                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-              }
-              .header {
-                  text-align: center;
-                  margin-bottom: 20px;
-              }
-              .header h1 {
-                  color: #0c2d4e;
-                  margin: 0;
-              }
-              .content {
-                  margin-bottom: 20px;
-              }
-              .content h2 {
-                  color: #0c2d4e;
-              }
-              .button {
-                  display: inline-block;
-                  padding: 10px 20px;
-                  font-size: 16px;
-                  color: #fff;
-                  background-color: #0c2d4e;
-                  text-decoration: none;
-                  border-radius: 4px;
-              }
-              .footer {
-                  text-align: center;
-                  margin-top: 20px;
-                  font-size: 14px;
-                  color: #888;
-              }
-          </style>
-      </head>
-      <body>
-          <div class="container">
-              <div class="header">
-                  <h1>Newsroom</h1>
-              </div>
-              <div class="content">
-                  <p>Hello ${to},</p>
-                  <p>We received a request to reset your password. Please click the link below to create a new password:</p>
-                  <a href="${url}" class="button">Reset Your Password</a>
-                  <p>If you didn’t request this, you can safely ignore this email.</p>
-              </div>
-              <div class="footer">
-                  <p>&copy; ${new Date().getFullYear()} Newsroom. All rights reserved.</p>
-              </div>
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4; border-radius: 10px;">
+        <header style="background: linear-gradient(to right, #2c3e50, #3498db); padding: 1rem; border-radius: 10px 10px 0 0; text-align: center;">
+          <h1 style="color: #ecf0f1; font-size: 1.8em; margin: 0;">NexusEditorial</h1>
+        </header>
+  
+        <div style="padding: 20px;">
+          <h2 style="color: #2c3e50;">Hello ${to},</h2>
+          <p style="font-size: 1.1em; color: #333;">
+            We received a request to reset your password. Please click the link below to create a new password.
+          </p>
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="${url}" style="padding: 10px 20px; background-color: #3498db; color: #fff; text-decoration: none; border-radius: 4px; font-size: 1.1em;">
+              Reset Your Password
+            </a>
           </div>
-      </body>
-      </html>
+          <p style="color: #888; font-size: 0.9em; text-align: center; margin-top: 20px;">
+            If you didn’t request this, you can safely ignore this email.
+          </p>
+        </div>
+  
+        <footer style="background-color: #ecf0f1; padding: 1rem; text-align: center; border-radius: 0 0 10px 10px;">
+          <p style="color: #2c3e50; font-size: 1em; margin: 0;">
+            Best regards,<br /><strong>The NexusEditorial Team</strong>
+          </p>
+        </footer>
+      </div>
     `;
   };
   

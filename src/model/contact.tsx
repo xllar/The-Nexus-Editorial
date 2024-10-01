@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const contactSchema = new mongoose.Schema({
+const storySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -14,12 +14,21 @@ const contactSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  file: {
+    type: String, // Store the file name or path
+    required: true,
+  },
   submittedAt: {
     type: Date,
     default: Date.now,
   },
+  // Optionally, add a field for the publication status
+  published: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const Contact = mongoose.models.Contact || mongoose.model('Contact', contactSchema);
+const Story = mongoose.models.Story || mongoose.model('Story', storySchema);
 
-export default Contact;
+export default Story;
