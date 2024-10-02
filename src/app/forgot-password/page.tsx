@@ -43,11 +43,12 @@ const handleSubmit = async (values: typeof initialValues) => {
 
   return (
     <>
-           {setLoading && (
-      <div className={styles.spinnerOverlay}>
-        <ClipLoader color="#2f82ff" size={100} />
-      </div>
-    )}
+          {setLoading && (
+  <div className={styles.spinnerOverlay}>
+    <ClipLoader color="#2f82ff" loading={setLoading} height={35} width={35} />
+  </div>
+)}
+
        <Navbar/>
      <div className={styles.container}>
           <div className={styles.card}>
@@ -84,9 +85,15 @@ const handleSubmit = async (values: typeof initialValues) => {
               </div>
           </div>
       </div>
-        <Footer Country={null} />
+        <Footer Country={null} socialMedia={[]} categories={[]} tags={[]} newsletter={{
+        title: '',
+        description: '',
+        placeholder: '',
+        buttonText: ''
+      }} />
     </>
   );
 };
+
 
 
