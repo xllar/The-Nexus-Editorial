@@ -4,11 +4,7 @@ import { sendEmail } from '@/app/lib/contact';
 import { validateEmail } from '@/app/lib/validateEmail';
 import { storySubmissionTemplate } from '@/sendEmailtemplate/contact'; 
 
-export const config = {
-  api: {
-    bodyParser: false, // Disable bodyParser to handle formData
-  },
-};
+
 
 export async function POST(req) {
   try {
