@@ -55,9 +55,9 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
 
   return (
     <>
-      {isLoading && (
+         {isLoading && (
         <div className={styles.spinnerOverlay}>
-          <ClipLoader color="#2f82ff" size={100} />
+          <ClipLoader color="#2f82ff" loading={isLoading} height={35} width={35} /> {/* Adjust size here */}
         </div>
       )}
       <Navbar />
@@ -102,7 +102,12 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
           </Formik>
         </div>
       </div>
-      <Footer Country={null} />
+      <Footer Country={null} socialMedia={[]} categories={[]} tags={[]} newsletter={{
+        title: '',
+        description: '',
+        placeholder: '',
+        buttonText: ''
+      }} />
     </>
   );
 }
