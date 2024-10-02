@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import db from '@/app/lib/db';
 import User from "@/model/user";
 import bcrypt from 'bcrypt';
-import { generateAuthToken } from '@/app/lib/signIntoken';
+import { generateAuthToken } from '@/app/lib/token';
 
 export async function POST(req:any) {
     await db.Connectdb();
