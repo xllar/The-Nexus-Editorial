@@ -11,3 +11,9 @@ export const CreateResetToken =(payload:any):string => {
     expiresIn:'15mins'
   })
 }
+
+export const generateAuthToken = (payload:any) => {
+  return jwt.sign(payload, process.env.JWT_SECRET_KEY as string, {
+    expiresIn: '1h', // Authentication token expiration time
+  });
+};
