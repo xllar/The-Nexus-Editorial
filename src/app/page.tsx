@@ -17,7 +17,7 @@ export default function Home() {
  useEffect(()=>{
   const FetchData = async()=>{
     try{
-      const response = await axios.get('https://api.ipregistry.co/?key=ghk8qlfmu33dfle');
+      const response = await axios.get('https://api.ipregistry.co/?key=ghk8qlfmu33dflet');
       //console.log(response.data)
       const countryData: country={
         name: response.data.location.country.name,
@@ -36,7 +36,12 @@ export default function Home() {
     <div>
       <Header country={Country }/> 
       <Main /> 
-      <Footer Country={Country}/> 
+      <Footer Country={Country} socialMedia={[]} categories={[]} tags={[]} newsletter={{
+        title: '',
+        description: '',
+        placeholder: '',
+        buttonText: ''
+      }}/> 
     </div>
   );
 }
