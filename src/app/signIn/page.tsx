@@ -13,7 +13,7 @@ import  {useRouter}  from 'next/navigation';
 import { useSession, signIn, signOut } from "next-auth/react";
 
 
-function SignInSignUp() {
+export default function SignInSignUp(){
   const router = useRouter();
   const [rightPanelActive, setRightPanelActive] = useState(false);
   const [show, setShow] = useState(false);
@@ -112,7 +112,7 @@ function SignInSignUp() {
     <div className={styles.body}>
        {IsLoading && (
       <div className={styles.spinnerOverlay}>
-        <ClipLoader color="#2f82ff" size={100} />
+        <ClipLoader color="#2f82ff" loading={IsLoading} height={35} width={35} />
       </div>
     )}
       <div>
@@ -219,12 +219,16 @@ function SignInSignUp() {
           </div>
         </div>
       </div>
-      <Footer Country={null} /> 
+      <Footer Country={null} socialMedia={[]} categories={[]} tags={[]} newsletter={{
+        title: '',
+        description: '',
+        placeholder: '',
+        buttonText: ''
+      }} /> 
     </div>
   );
 }
 
-export default SignInSignUp;
 
 
   
