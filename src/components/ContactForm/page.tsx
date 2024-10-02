@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -219,6 +220,11 @@ export default function ContactForm() {
             )}
           </Formik>
         </div>
+      </div>
+    </div>
+  );
+}
+
       </div>
     </div>
   );
