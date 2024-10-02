@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 
 // Email sending function for newsletters using Nodemailer with SMTP
-export const sendNewsletter = async (to: string, url: string, subject: string, html: string) => {
+export const sendNewsletter = async (to, url, subject, html) => {
   try {
     const smtpTransport = nodemailer.createTransport({
       host: process.env.SMTP_HOST, 
@@ -30,3 +30,4 @@ export const sendNewsletter = async (to: string, url: string, subject: string, h
     throw new Error('Failed to send email');
   }
 };
+
