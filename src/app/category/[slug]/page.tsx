@@ -13,12 +13,7 @@ type Post = {
   _id: string;
   title: string;
   description: string;
-  mainImage: {
-    asset: {
-      url: string;
-    };
-    alt: string;
-  };
+  mainImage: string | { asset: { url: string }; alt: string }; // Allow for both types
   slug: {
     current: string;
   };
@@ -174,32 +169,42 @@ export default function CategoryPage() {
           </h2>
 
           {/* Posts Grid */}
+          
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 relative z-10">
-            {filteredPosts.length > 0 ? (
-              filteredPosts.map((post) => (
-                <div key={post._id} className="relative bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
-                  <div className="w-full h-32 sm:h-48 relative">
-                    <img 
-                      src={post.mainImage} 
-                      alt={post.mainImage || `Post Image ${post._id}`} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-4 bg-white transition-colors duration-300 hover:bg-blue-50">
-                    <h3 className="text-lg md:text-xl font-semibold mb-2 text-blue-600">{post.title}</h3>
-                    <p className="text-gray-600 mb-4">{post.description}</p>
-                    <p className="text-gray-600 text-sm mb-2">{post.authorName}</p>
-                    <p className="text-gray-600 text-sm">{new Date(post.date).toLocaleDateString()}</p>
-                    <Link href={`/blog/${post.slug.current}`} legacyBehavior>
-                      <a className="text-blue-600 hover:underline font-semibold">Read More</a>
-                    </Link>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-center text-gray-500 text-xl">No posts match your search.</p>
-            )}
+  {filteredPosts.length > 0 ? (
+    filteredPosts.map((post) => {
+      // Check if mainImage is an object and extract the URL if necessary
+      const imageUrl = typeof post.mainImage === 'string' ? post.mainImage : post.mainImage?.asset?.url;
+
+      // Determine the alt text based on the type of mainImage
+      const altText = typeof post.mainImage === 'string' ? `Post Image ${post._id}` : post.mainImage.alt;
+
+      return (
+        <div key={post._id} className="relative bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
+          <div className="w-full h-32 sm:h-48 relative">
+            <img 
+              src={imageUrl} 
+              alt={altText} 
+              className="w-full h-full object-cover"
+            />
           </div>
+          <div className="p-4 bg-white transition-colors duration-300 hover:bg-blue-50">
+            <h3 className="text-lg md:text-xl font-semibold mb-2 text-blue-600">{post.title}</h3>
+            <p className="text-gray-600 mb-4">{post.description}</p>
+            <p className="text-gray-600 text-sm mb-2">{post.authorName}</p>
+            <p className="text-gray-600 text-sm">{new Date(post.date).toLocaleDateString()}</p>
+            <Link href={`/blog/${post.slug.current}`} legacyBehavior>
+              <a className="text-blue-600 hover:underline font-semibold">Read More</a>
+            </Link>
+          </div>
+        </div>
+      );
+    })
+  ) : (
+    <p className="text-center text-gray-500 text-xl">No posts match your search.</p>
+  )}
+</div>
+
         </section>
       </main>
 
@@ -212,6 +217,9 @@ export default function CategoryPage() {
     </>
   );
 }
+
+
+
 
 
 
