@@ -183,16 +183,19 @@ export default function ContactForm() {
                 <div>
                   <label htmlFor="storyFile" className="block text-sm font-medium mb-2">Attach Your Story File</label>
                   <input
-                    type="file"
-                    name="storyFile"
-                    onChange={(event) => {
-                      const file = event.currentTarget.files[0];
-                      setFieldValue("storyFile", file);
-                    }}
-                    className="w-full border border-gray-600 bg-gray-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    accept=".pdf,.doc,.docx"
-                    disabled={isFormDisabled} // Disable if needed
-                  />
+  type="file"
+  name="storyFile"
+  onChange={(event) => {
+    const files = event.currentTarget.files; // Get the files
+    if (files && files.length > 0) { // Check if files are not null and have at least one file
+      setFieldValue("storyFile", files[0]); // Set the first file
+    } else {
+      setFieldValue("storyFile", null); // Clear the field if no file is selected
+    }
+  }}
+  className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+/>
+
                   <ErrorMessage name="storyFile" component="div" className="text-red-400 text-sm mt-1" />
                 </div>
 
