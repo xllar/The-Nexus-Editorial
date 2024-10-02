@@ -36,7 +36,7 @@ const query = `*[_type == "sideBlog"][0] {
     description
   },
   socialLinks
-}`;      
+}`;
 
 type Video = {
   title: string;
@@ -69,7 +69,7 @@ type SideBlog = {
     };
     description: string;
   };
-  socialLinks: any; // Adjust type as necessary
+  socialLinks: any;
 };
 
 export default function SideCardComponent() {
@@ -89,115 +89,114 @@ export default function SideCardComponent() {
     
     fetchData();
   }, []);
-  
+
   if (!post) {
     return <div className="text-center text-gray-500">Loading...</div>;
   }
 
   return (
-    <div className="space-y-8 p-6 bg-gradient-to-r from-green-50 via-teal-50 to-blue-50 animate-fade-in">
+    <div>
 
-      {/* Popular Posts Section */}
-      <div className="bg-white rounded-xl p-6 mb-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-green-500 cursor-pointer">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">Popular Posts</h2>
-        <div className="space-y-4">
-          {post.popularPosts.map((postItem) => (
+    
+            {/* Popular Posts Section */}
+    <div className="rounded-lg p-4 shadow-md bg-gradient-to-r from-white to-gray-50 hover:shadow-xl transition">
+      <h2 className="text-3xl font-bold text-gray-800 mb-4">Popular Posts</h2>
+      <div className="space-y-4">
+        {post.popularPosts.map((postItem) => (
+          <Link 
+            key={postItem.slug.current} 
+            href={`/blog/${postItem.slug.current}`} 
+            className="block overflow-hidden transition-transform hover:scale-105"
+            legacyBehavior>
+            <div className="flex items-center space-x-4 bg-gray-50 p-4 rounded-lg shadow-md hover:bg-gray-100 transition">
+              {postItem.mainImage?.asset?.url && (
+                <img 
+                  src={postItem.mainImage.asset.url} 
+                  alt={postItem.title} 
+                  className="w-20 h-20 object-cover rounded-lg"
+                />
+              )}
+              <h5 className="text-lg font-semibold text-gray-700">{postItem.title}</h5>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+
+    {/* Videos Section */}
+    <div className="rounded-lg p-4 shadow-md bg-gradient-to-r from-gray-50 to-white hover:shadow-xl transition">
+      <h2 className="text-3xl font-bold text-gray-800 mb-4">Videos</h2>
+      <div className="space-y-3">
+        {post.videos.length > 0 ? (
+          post.videos.map((video) => (
+            <a 
+              key={video.url} 
+              href={video.url} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="block p-4 bg-gray-100 rounded-lg shadow hover:bg-gray-200 transition"
+            >
+              <p className="text-lg font-semibold text-gray-800">{video.title}</p>
+            </a>
+          ))
+        ) : (
+          <p className="text-gray-500">No videos available</p>
+        )}
+      </div>
+    </div>
+
+    {/* Categories Section */}
+    <div className="rounded-lg p-4 shadow-md bg-gradient-to-r from-gray-50 to-white hover:shadow-xl transition">
+      <h2 className="text-3xl font-bold text-gray-800 mb-4">Categories</h2>
+      <div className="flex flex-wrap gap-3">
+        {post.categories.length > 0 ? (
+          post.categories.map((category) => (
             <Link 
-              key={postItem.slug?.current} 
-              href={`/blog/${postItem.slug?.current || '#'}`} 
-              className="block bg-gray-100 hover:bg-gray-200 rounded-lg overflow-hidden shadow-sm transition-colors duration-300 border-l-4 border-blue-500 cursor-pointer"
+              key={category.title} 
+              href={`/category/${category.title.toLowerCase().replace(/\s+/g, '-')}`} 
+              className="inline-block bg-indigo-50 text-indigo-700 px-3 py-2 rounded-full font-semibold transition hover:bg-indigo-100"
               legacyBehavior>
-              <div className="relative p-4 flex items-center space-x-4">
-                {postItem.mainImage?.asset?.url && (
-                  <img 
-                    src={postItem.mainImage.asset.url} 
-                    alt={postItem.title} 
-                    className="w-20 h-20 object-cover rounded-lg border-2 border-gray-300"
-                  />
-                )}
-                <h5 className="text-lg font-semibold text-gray-800">{postItem.title}</h5>
-              </div>
+              <span>{category.title}</span>
             </Link>
-          ))}
-        </div>
+          ))
+        ) : (
+          <p className="text-gray-500">No categories available</p>
+        )}
       </div>
+    </div>
 
-      {/* Videos Section */}
-      <div className="bg-white rounded-xl p-6 mb-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-teal-500 cursor-pointer">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">Videos</h2>
-        <div className="space-y-4">
-          {(post.videos?.length ?? 0) > 0 ? (
-            post.videos.map((video: Video) => (
-              <div key={video.url} className="flex items-center space-x-4 p-4 bg-gray-100 rounded-lg shadow-md hover:bg-gray-200 transition-colors duration-300 border-l-4 border-teal-500">
-                <a href={video.url} target="_blank" rel="noopener noreferrer" className="block text-lg font-semibold text-teal-600 hover:underline">
-                  {video.title}
-                </a>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-700 text-center">No videos available</p>
-          )}
-        </div>
+    {/* Tags Section */}
+    <div className="rounded-lg p-4 shadow-md bg-gradient-to-r from-white to-gray-50 hover:shadow-xl transition">
+      <h2 className="text-3xl font-bold text-gray-800 mb-4">Tags</h2>
+      <div className="flex flex-wrap gap-3">
+        {post.tags.length > 0 ? (
+          post.tags.map((tag) => (
+            <span key={tag} className="text-lg font-semibold text-pink-600 hover:text-pink-800 transition">
+              #{tag}
+            </span>
+          ))
+        ) : (
+          <p className="text-gray-500">No tags available</p>
+        )}
       </div>
+    </div>
 
-      {/* Categories Section */}
-     {/* Categories Section */}
-<div className="bg-white rounded-xl p-6 mb-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-blue-500 cursor-pointer">
-  <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">Categories</h2>
-  <div className="flex flex-wrap gap-4 justify-center">
-    {(post.categories?.length ?? 0) > 0 ? (
-      post.categories.map((category) => (
-        <Link 
-          key={category.title} 
-          href={`/category/${category.title.toLowerCase().replace(/\s+/g, '-')}`} 
-          as={`/category/${category.title.toLowerCase().replace(/\s+/g, '-')}?open=${category.title}`} 
-          className="block p-3 bg-gradient-to-r from-blue-100 to-blue-300 text-blue-700 rounded-lg shadow-md hover:bg-gradient-to-r hover:from-blue-200 hover:to-blue-400 transition-colors duration-300 cursor-pointer"
-          legacyBehavior>
-          <span className="text-lg font-semibold hover:underline">
-            {category.title}
-          </span>
-        </Link>
-      ))
-    ) : (
-      <p className="text-gray-700 text-center">No categories available</p>
-    )}
-  </div>
-</div>
-
-
-      {/* Tags Section */}
-      <div className="bg-white rounded-xl p-6 mb-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-purple-500">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">Tags</h2>
-        <div className="flex flex-wrap gap-3 justify-center">
-          {(post.tags?.length ?? 0) > 0 ? (
-            post.tags.map((tag) => (
-              <div 
-                key={tag} 
-                className="text-lg font-semibold text-purple-600 hover:text-purple-800"
-              >
-                #{tag}
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-700 text-center">No tags available</p>
-          )}
-        </div>
+    {/* About Me Section */}
+    <div className="rounded-lg p-4 shadow-md bg-gradient-to-r from-gray-50 to-white hover:shadow-xl transition">
+      <h2 className="text-3xl font-bold text-gray-800 mb-4">About Me</h2>
+      <div className="flex flex-col md:flex-row items-center space-y-4 md:space-x-6">
+        {post.aboutMe?.image?.asset?.url && (
+          <img 
+            src={post.aboutMe.image.asset.url} 
+            alt="About Me" 
+            className="w-32 h-32 object-cover rounded-full shadow-lg"
+          />
+        )}
+        <p className="text-gray-700 text-base leading-relaxed">
+          {post.aboutMe?.description}
+        </p>
       </div>
-
-      {/* About Me Section */}
-      <div className="bg-white rounded-xl p-6 mb-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-gray-500 cursor-default">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">About Me</h2>
-        <div className="flex items-center space-x-6">
-          {post.aboutMe?.image?.asset?.url && (
-            <img 
-              src={post.aboutMe.image.asset.url} 
-              alt="About Me" 
-              className="w-40 h-40 object-cover rounded-full border-4 border-gray-300 shadow-lg"
-            />
-          )}
-          <p className="text-gray-800 text-lg leading-relaxed">{post.aboutMe?.description}</p>
-        </div>
-      </div>
+    </div>
 
     </div>
   );
