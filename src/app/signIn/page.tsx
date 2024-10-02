@@ -122,7 +122,9 @@ export default function SignInSignUp(){
         <div className={`${styles.container} ${rightPanelActive ? styles.rightPanelActive : ''}`}>
           <div className={`${styles.formContainer} ${styles.signUpContainer}`}>
             <form className={styles.form} onSubmit={signUpForm.handleSubmit}>
-              <h1>Create Account</h1>
+              <h1 style={{ fontSize: '2.5rem', fontWeight: 200, textAlign: 'center', color: '#333', marginTop: '2rem', marginBottom: '1.5rem' }}>
+                 <strong>Create Account</strong>
+              </h1>
               <div className={styles.socialContainer}>
                 <a className={`${styles.social} ${styles.facebook}`} onClick={()=>signIn('facebook')}><BiLogoFacebook /></a>
                 <a className={`${styles.social} ${styles.google}`} onClick={()=>signIn('google')}><BiLogoGoogle /></a>
@@ -163,6 +165,7 @@ export default function SignInSignUp(){
                 {showConfirm ? <BiShow className={styles.showHideIcon} onClick={toggleConfirmPasswordVisibility} /> : <BiHide className={styles.showHideIcon} onClick={toggleConfirmPasswordVisibility} />}
                 {signUpForm.errors.confirmPassword && signUpForm.touched.confirmPassword ? <span className={styles.errorSpan}>{signUpForm.errors.confirmPassword}</span> : null}
               </div>
+              <br />
               <button type="submit" className={styles.button}>Sign Up</button>
               <div className={styles.message}>
                 {successMessage && <div className={styles.success}>{successMessage}</div>}
@@ -170,9 +173,14 @@ export default function SignInSignUp(){
             </div>
             </form>
           </div>
+          <hr />
           <div className={`${styles.formContainer} ${styles.signInContainer}`}>
             <form className={styles.form} onSubmit={signInForm.handleSubmit}>
-              <h1>Sign in</h1>
+              <br />
+              <h1 style={{ fontSize: '2.5rem', fontWeight: 200, textAlign: 'center', color: '#333', marginTop: '2rem', marginBottom: '1.5rem' }}>
+                   <strong>Sign In</strong>
+                </h1>
+
               <div className={styles.socialContainer}>
                 <a className={`${styles.social} ${styles.google}`} onClick={()=>signIn('google')}><BiLogoGoogle /></a>
                 <a className={`${styles.social} ${styles.twitter}`} onClick={()=>signIn('twitter')}><BiLogoTwitter /></a>
