@@ -20,9 +20,6 @@ export default function menu() {
     <h3>Welcome back <span>{session.user?.name}</span></h3>
     <p>{session.user?.name} enjoy latest news at your fingertips!</p>
     <ul>
-      <li><a href="#">Profile</a></li>
-      <li><a href="#">Settings</a></li>
-      <li><a href="#">Store</a></li>
       <li><a onClick={(e) => { e.preventDefault(); signOut(); }}>Sign Out</a></li>
     </ul>
   </div>
@@ -40,3 +37,4 @@ export default function menu() {
   </div>
   )
 }
+
