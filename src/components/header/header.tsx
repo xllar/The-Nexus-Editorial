@@ -49,7 +49,7 @@ export default function Page({ country }: HeaderProps) {
       <nav className={`${styles.nav} ${menuVisible ? styles.mobileNavVisible : ''}`}>
         <ul>
           <li><a href="/">Home</a></li>
-
+          <li><a href='../../category/[category].tsx/' > Category</a></li>
           {categories.map((category, index) => (
   <li key={index}>
     <Link href={`/category/${category.toLowerCase().replace(/\s+/g, '-')}`} as={`/category/${category.toLowerCase().replace(/\s+/g, '-')}?open=${category}`}>
@@ -57,7 +57,8 @@ export default function Page({ country }: HeaderProps) {
     </Link>
   </li>
 ))}
-
+          <li><a href="/signIn">signIn</a></li>
+     
         </ul>
 
         <div className={styles.userMenu}>
